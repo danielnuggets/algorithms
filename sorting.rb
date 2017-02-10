@@ -1,19 +1,27 @@
 class Sort
   def insertion_sort(array)
-    sorted_array = [array[0]]
-    array.each_with_index do |elem, index|
-      next if index == 0
-      sorted_index = index
-      while sorted_index > 0 && sorted_array[sorted_index - 1] > elem
-        sorted_array[sorted_index] = sorted_array[sorted_index - 1]
-        sorted_index -= 1
+    array.each_with_index do |elem, i|
+      next if i.zero?
+      j = i
+      while j > 0 && elem < array[j - 1]
+        array[j] = array[j - 1]
+        j -= 1
       end
-      sorted_array[sorted_index] = elem
+      array[j] = elem
     end
-    return sorted_array
+    array
   end
 end
 
+
+# Test
 sort = Sort.new
-array1 = [2, 6, 3, 5, 8, 1, 3]
-p sort.insertion_sort(array1)
+test_array = [2, 3, 5, 1, 3, 0, 233, -5]
+actual = sort.insertion_sort(test_array)
+expected = [-5, 0, 1, 2, 3, 3, 5, 233]
+
+if actual == expected
+  puts 'PASS'
+else
+  puts 'FAIL'
+end
