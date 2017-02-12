@@ -23,14 +23,28 @@ class Sort
     end
     array
   end
+
+  def bubble_sort(array)
+    swaps = 1
+    while swaps > 0
+      swaps = 0
+      array[0..-2].each_with_index do |elem, i|
+        if array[i + 1] < array[i]
+          array[i], array[i + 1] = array[i + 1], array[i]
+          swaps += 1
+        end
+      end
+    end
+    array
+  end
 end
 
 
 # Test Insertion Sort
 sort = Sort.new
-test_array = [2, 3, 5, 1, 3, 0, 233, -5]
+test_array = [3, 2, -1, 2, 0, 100]
 actual = sort.insertion_sort(test_array)
-expected = [-5, 0, 1, 2, 3, 3, 5, 233]
+expected = [-1, 0, 2, 2, 3, 100]
 if actual == expected
   puts 'Insertion Sort - PASS'
 else
@@ -39,13 +53,26 @@ end
 
 # Test Selection Sort
 sort = Sort.new
-test_array = [4, 2, 74, 1, 5, 457, 2, -4]
+test_array = [3, 2, -1, 2, 0, 100]
 actual = sort.selection_sort(test_array)
-expected = [-4, 1, 2, 2, 4, 5, 74, 457]
+expected = [-1, 0, 2, 2, 3, 100]
 if actual == expected
   puts 'Selection Sort - PASS'
 else
   puts 'Selection Sort - FAIL'
+  puts 'expected: [-4, 1, 2, 2, 4, 5, 74, 457]'
+  puts 'actual: ' + actual.to_s
+end
+
+# Test Bubble Sort
+sort = Sort.new
+test_array = [3, 2, -1, 2, 0, 100]
+actual = sort.bubble_sort(test_array)
+expected = [-1, 0, 2, 2, 3, 100]
+if actual == expected
+  puts 'Bubble Sort - PASS'
+else
+  puts 'Bubble Sort - FAIL'
   puts 'expected: [-4, 1, 2, 2, 4, 5, 74, 457]'
   puts 'actual: ' + actual.to_s
 end
