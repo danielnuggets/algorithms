@@ -37,8 +37,46 @@ class Sort
     end
     array
   end
-end
 
+  # [3, 2, -1, 2, 0, 100]
+  # [3, 2, -1][2, 0, 100]
+  # [3][2, -1][2][0, 100]
+  # [3][2][-1][2][0][100]
+  # [3][2, -1][2, 0, 100]
+  # [3][2, -1][2, 0, 100]
+
+  def merge_sort(array)
+    return array if array.length <= 1
+    array1 = array[0..array.length / 2 - 1]
+    array2 = array[array.length / 2..-1]
+    array1.length > 1 ? array1_sorted = merge_sort(array1) : array1_sorted = array1
+    array2.length > 1 ? array2_sorted = merge_sort(array2) : array2_sorted = array2
+    merge_sorted_arrays(array1_sorted, array2_sorted)
+  end
+
+  def merge_sorted_arrays(array1, array2)
+    # test_array1 = [1, 2, 3]
+    # test_array2 = [-1, 5, 7]
+    i = 0
+    j = 0
+    sorted_array = []
+    while i < array1.length && j < array2.length
+      if array1[i] < array2[j]
+        sorted_array << array1[i]
+        i += 1
+      else
+        sorted_array << array2[j]
+        j += 1
+      end
+    end 
+    if i == array1.length
+      sorted_array += array2[j..-1]
+    else
+      sorted_array += array1[i..-1]
+    end
+    sorted_array
+  end
+end
 
 # Test Insertion Sort
 sort = Sort.new
@@ -74,5 +112,18 @@ if actual == expected
 else
   puts 'Bubble Sort - FAIL'
   puts 'expected: [-4, 1, 2, 2, 4, 5, 74, 457]'
+  puts 'actual: ' + actual.to_s
+end
+
+# Test Merge Sort
+sort = Sort.new
+test_array = [3, 2, -1, 2, 0, 100]
+actual = sort.merge_sort(test_array)
+expected = [-1, 0, 2, 2, 3, 100]
+if actual == expected
+  puts 'Merge Sort - PASS'
+else
+  puts 'Merge Sort - FAIL'
+  puts 'expected: [-1, 0, 2, 2, 3, 100]'
   puts 'actual: ' + actual.to_s
 end
